@@ -18,13 +18,15 @@ public class Team {
     @Column(name = "team_name")
     private String teamName;
 
+
+    /*
     @Column(name = "foreigners")
     private int foreigners;
 
     @Column(name = "goalkeepers")
     private int goalkeepers;
 
-    /*
+
     @Column(name = "foreigners")
     private int[] foreigners = new int[6];
 
