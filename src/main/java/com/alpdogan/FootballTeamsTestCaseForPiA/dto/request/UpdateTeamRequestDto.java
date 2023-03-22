@@ -1,4 +1,4 @@
-package com.alpdogan.FootballTeamsTestCaseForPiA.dto;
+package com.alpdogan.FootballTeamsTestCaseForPiA.dto.request;
 
 import lombok.Data;
 
