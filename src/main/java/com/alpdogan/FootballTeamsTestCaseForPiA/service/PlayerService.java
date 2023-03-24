@@ -25,8 +25,8 @@ public class PlayerService {
     @Autowired
     ModelMapper modelMapper;
 
-    public String savePlayer(SavePlayerRequestDto savePlayerRequestDto)
-    {
+    public String savePlayer(SavePlayerRequestDto savePlayerRequestDto) {
+
         String fullNameRequest = savePlayerRequestDto.getFullName();
         //boolean isForeignerRequest = savePlayerRequestDto.setForeigner();
         //boolean isGoalkeeperRequest = savePlayerRequestDto.setGoalkeeper();
@@ -41,14 +41,37 @@ public class PlayerService {
         player.setGoalkeeper(player.isGoalkeeper());
         player.setTeam(team);
 
-        List<Player> playerList = new ArrayList<>();
-        playerList.add(player);
+        if (team.getPlayers().size() == 18) {
 
-        team.setPlayers(playerList);
+            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
 
-        playerRepository.save(player);
+        } else if (player.isForeigner() == true && team.getForeigners().length == 6) {
 
-        return player.getFullName() + " Has Been Successfully Created.";
+            return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
+
+        } else if (player.isGoalkeeper() == true && team.getGoalkeepers().length == 2) {
+
+            return team.getTeamName() + " Has Already 2 Goalkeepers, Cannot Add More.";
+
+        } else {
+
+            List<Player> playerList = new ArrayList<>();
+            playerList.add(player);
+
+            team.setPlayers(playerList);
+
+            playerRepository.save(player);
+
+            return player.getFullName() + " Has Been Successfully Created.";
+
+        }
+
+    }
+
+    public Player findPlayerById(Integer playerId) {
+
+        return playerRepository.findById(playerId).get();
+
     }
 
 
