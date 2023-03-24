@@ -31,8 +31,6 @@ public class PlayerService {
     public String savePlayer(SavePlayerRequestDto savePlayerRequestDto) {
 
         String fullNameRequest = savePlayerRequestDto.getFullName();
-        //boolean isForeignerRequest = savePlayerRequestDto.setForeigner();
-        //boolean isGoalkeeperRequest = savePlayerRequestDto.setGoalkeeper();
         int teamIdRequest = savePlayerRequestDto.getTeamId();
 
         Team team = teamRepository.findById(teamIdRequest).get();
@@ -112,9 +110,24 @@ public class PlayerService {
         player.setGoalkeeper(player.isGoalkeeper());
         player.setTeam(team);
 
-        playerRepository.save(player);
+        if (team.getPlayers().size() == 18) {
 
-        return "Changes Saved Successfully.";
+            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
+
+        } else if (player.isForeigner() == true && team.getForeigners().length == 6) {
+
+            return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
+
+        } else if (player.isGoalkeeper() == true && team.getGoalkeepers().length == 2) {
+
+            return team.getTeamName() + " Has Already 2 Goalkeepers, Cannot Add More.";
+
+        } else {
+
+            playerRepository.save(player);
+            return "Changes Saved Successfully.";
+
+        }
 
     }
 
