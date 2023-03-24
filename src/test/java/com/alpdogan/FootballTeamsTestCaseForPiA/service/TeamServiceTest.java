@@ -1,5 +1,6 @@
 package com.alpdogan.FootballTeamsTestCaseForPiA.service;
 
+import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SaveTeamRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Team;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.TeamRepository;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,25 @@ public class TeamServiceTest {
 
     @Mock
     ModelMapper modelMapper;
+
+    @Test
+    void testSaveTeam() {
+
+        SaveTeamRequestDto saveTeamRequestDtoMock = mock(SaveTeamRequestDto.class);
+
+        saveTeamRequestDtoMock.setTeamName("testName");
+
+        Team teamMock = mock(Team.class);
+        teamMock.setId(1);
+
+        when(modelMapper.map(saveTeamRequestDtoMock, Team.class)).thenReturn(teamMock);
+        when(teamRepository.save(teamMock)).thenReturn(teamMock);
+        String saveTeam = teamService.saveTeam(saveTeamRequestDtoMock);
+        String saveTeamMessage = teamMock.getTeamName() + " Has Been Created Successfully.";
+
+        assertEquals(saveTeamMessage, saveTeam);
+
+    }
 
     @Test
     void testFindTeamById(){
