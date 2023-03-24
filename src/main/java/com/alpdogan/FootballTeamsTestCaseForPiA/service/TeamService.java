@@ -3,6 +3,7 @@ package com.alpdogan.FootballTeamsTestCaseForPiA.service;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SavePlayerRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SaveTeamRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.UpdateTeamRequestDto;
+import com.alpdogan.FootballTeamsTestCaseForPiA.dto.response.TeamResponseDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Player;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Team;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.PlayerRepository;
@@ -11,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -36,6 +39,28 @@ public class TeamService {
         return team.getTeamName() + " Has Been Created Successfully.";
 
     }
+
+    public Team findTeamById(Integer teamId) {
+
+        return teamRepository.findById(teamId).get();
+
+    }
+
+    public List<TeamResponseDto> findAllTeams() {
+
+        Iterable<Team> teams = teamRepository.findAll();
+
+        List<TeamResponseDto> teamResponseDtos = new ArrayList<>();
+
+        for (Team team : teams) {
+            TeamResponseDto teamResponseDto = modelMapper.map(team, TeamResponseDto.class);
+            teamResponseDtos.add(teamResponseDto);
+        }
+
+        return teamResponseDtos;
+
+    }
+
 
     /*
     public String addPlayerToTheTeam(Team team, Player player) {
