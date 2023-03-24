@@ -18,7 +18,6 @@ public class Team {
     @Column(name = "team_name")
     private String teamName;
 
-
     /*
     @Column(name = "foreigners")
     private int foreigners;
@@ -32,6 +31,7 @@ public class Team {
 
     @Column(name = "goalkeepers")
     private int[] goalkeepers = new int[2];
+
 
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {
