@@ -83,5 +83,17 @@ public class TeamServiceTest {
 
     }
 
+    @Test
+    void testDeleteTeamById() {
+
+        Team teamMock = mock(Team.class);
+        teamMock.setId(1);
+
+        when(teamRepository.findById(teamMock.getId())).thenReturn(Optional.of(teamMock));
+        String deleteTeam = teamService.deleteTeamById(teamMock.getId());
+        String deleteTeamMessage = "Team Deleted.";
+
+        assertEquals(deleteTeamMessage, deleteTeam);
+    }
 
 }
