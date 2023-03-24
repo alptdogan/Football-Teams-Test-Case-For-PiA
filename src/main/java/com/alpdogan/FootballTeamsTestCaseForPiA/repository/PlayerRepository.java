@@ -1,10 +1,12 @@
 package com.alpdogan.FootballTeamsTestCaseForPiA.repository;
 
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Player;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PlayerRepository extends JpaRepository <Player, Integer> {
+@Repository
+public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
-    Player findById(int id);
+    //Player findById(int id);
 
 }

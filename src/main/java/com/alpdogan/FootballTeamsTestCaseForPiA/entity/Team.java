@@ -25,14 +25,14 @@ public class Team {
 
     @Column(name = "goalkeepers")
     private int goalkeepers;
-
+     */
 
     @Column(name = "foreigners")
     private int[] foreigners = new int[6];
 
     @Column(name = "goalkeepers")
     private int[] goalkeepers = new int[2];
-     */
+
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
