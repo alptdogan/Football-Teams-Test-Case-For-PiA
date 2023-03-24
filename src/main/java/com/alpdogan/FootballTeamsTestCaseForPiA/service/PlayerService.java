@@ -1,6 +1,8 @@
 package com.alpdogan.FootballTeamsTestCaseForPiA.service;
 
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SavePlayerRequestDto;
+import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.UpdatePlayerRequestDto;
+import com.alpdogan.FootballTeamsTestCaseForPiA.dto.response.PlayerResponseDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Player;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Team;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.PlayerRepository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerService {
@@ -68,9 +71,61 @@ public class PlayerService {
 
     }
 
+    //Bu lazım mı en son karar ver
     public Player findPlayerById(Integer playerId) {
 
         return playerRepository.findById(playerId).get();
+
+    }
+
+    public List<PlayerResponseDto> findAllPlayers() {
+
+        Iterable<Player> players = playerRepository.findAll();
+
+        List<PlayerResponseDto> playerResponseDtos = new ArrayList<>();
+
+        for (Player player : players) {
+
+            PlayerResponseDto playerResponseDto = modelMapper.map(player, PlayerResponseDto.class);
+
+            playerResponseDtos.add(playerResponseDto);
+
+        }
+
+        return playerResponseDtos;
+
+    }
+
+    public String updatePlayer(UpdatePlayerRequestDto updatePlayerRequestDto) {
+
+        int idPlayerRequest = updatePlayerRequestDto.getId();
+        String fullNameRequest = updatePlayerRequestDto.getFullName();
+        int teamIdRequest = updatePlayerRequestDto.getTeamId();
+
+        Team team = teamRepository.findById(teamIdRequest).get();
+
+        Optional<Player> playerOptional = playerRepository.findById(idPlayerRequest);
+        Player player = playerOptional.get();
+
+        player.setFullName(fullNameRequest);
+        player.setForeigner(player.isForeigner());
+        player.setGoalkeeper(player.isGoalkeeper());
+        player.setTeam(team);
+
+        playerRepository.save(player);
+
+        return "Changes Saved Successfully.";
+
+    }
+
+    public String deletePlayerById(Integer playerId)
+    {
+        Optional<Player> optionalPlayer = playerRepository.findById(playerId);
+        Player player = optionalPlayer.get();
+
+        playerRepository.delete(player);
+
+        return "Player Deleted.";
 
     }
 
