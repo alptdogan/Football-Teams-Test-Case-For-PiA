@@ -1,6 +1,7 @@
 package com.alpdogan.FootballTeamsTestCaseForPiA.service;
 
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SaveTeamRequestDto;
+import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.UpdateTeamRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Team;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.TeamRepository;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,26 @@ public class TeamServiceTest {
         Team findTeam = teamService.findTeamById(teamMock.getId());
 
         assertEquals(teamMock, findTeam);
+
+    }
+
+    @Test
+    void testUpdateTeam() {
+
+        Team teamMock = mock(Team.class);
+
+        teamMock.setId(1);
+        teamMock.setTeamName("Fenerbahçe");
+
+        UpdateTeamRequestDto updateTeamRequestDtoMock = mock(UpdateTeamRequestDto.class);
+        updateTeamRequestDtoMock.setTeamName("updateTestName");
+
+        when(teamRepository.findById(teamMock.getId())).thenReturn(Optional.of(teamMock));
+
+        String updateTeam = teamService.updateTeam(updateTeamRequestDtoMock);
+        String updateTeamMessage = "Changes Saved Successfully.";
+
+        assertEquals(updateTeamMessage, updateTeam);
 
     }
 
