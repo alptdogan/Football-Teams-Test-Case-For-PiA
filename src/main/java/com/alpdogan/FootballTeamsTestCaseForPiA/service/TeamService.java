@@ -61,8 +61,36 @@ public class TeamService {
 
     }
 
+    public String updateTeam(UpdateTeamRequestDto updateTeamRequestDto) {
+
+        int idTeamRequest = updateTeamRequestDto.getId();
+        String nameTeamRequest = updateTeamRequestDto.getTeamName();
+
+        Optional<Team> teamOptional = teamRepository.findById(idTeamRequest);
+        Team team = teamOptional.get();
+
+        team.setTeamName(nameTeamRequest);
+
+        teamRepository.save(team);
+
+        return "Changes Saved Successfully.";
+
+    }
+
+    public String deleteTeamById(Integer teamId) {
+
+        Optional<Team> teamOptional = teamRepository.findById(teamId);
+        Team team = teamOptional.get();
+
+        teamRepository.delete(team);
+
+        return "Team Deleted.";
+
+    }
+
 
     /*
+    //updateTeam?
     public String addPlayerToTheTeam(Team team, Player player) {
 
         int teamId = team.getId();
