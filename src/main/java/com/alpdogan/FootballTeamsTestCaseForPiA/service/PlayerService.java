@@ -38,28 +38,36 @@ public class PlayerService {
 
         Player player = new Player();
 
+        /*
         player.setFullName(fullNameRequest);
         player.setGoalkeeper(isGoalkeeperRequest);
         player.setForeigner(isForeignerRequest);
         player.setDomesticAndNotGoalkeeper(isDomesticAndNotGoalkeeperRequest);
         player.setTeam(team);
+         */
 
         if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() < 2) {
 
-            /*
+            Goalkeeper goalkeeper = new Goalkeeper();
+
+            goalkeeper.setFullName(fullNameRequest);
+            goalkeeper.setGoalkeeper(isGoalkeeperRequest);
+            goalkeeper.setForeigner(isForeignerRequest);
+            goalkeeper.setDomesticAndNotGoalkeeper(isDomesticAndNotGoalkeeperRequest);
+            goalkeeper.setTeam(team);
+
             List<Goalkeeper> goalkeepersList = new ArrayList<>();
-            goalkeepersList.add((Goalkeeper) player);
+            goalkeepersList.add(goalkeeper);
 
             team.setGoalkeepers(goalkeepersList);
 
             //playerRepository.save(player);
-             */
 
-            Goalkeeper goalkeeper = new Goalkeeper();
+            //Goalkeeper goalkeeper = new Goalkeeper();
 
-            goalkeeper.setTeam(team);
+            //goalkeeper.setTeam(team);
 
-            goalkeeper.getTeam().getGoalkeepers().add(goalkeeper.getId(), goalkeeper);
+            //player.getTeam().getGoalkeepers().add(player.getId(), (Goalkeeper) player);
 
         } else if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() == 2){
 
@@ -69,20 +77,28 @@ public class PlayerService {
 
         if (player.isForeigner() && player.getTeam().getForeignPlayers().size() < 6) {
 
-            /*
+
+            ForeignPlayer foreignPlayer = new ForeignPlayer();
+
+            foreignPlayer.setFullName(fullNameRequest);
+            foreignPlayer.setGoalkeeper(isGoalkeeperRequest);
+            foreignPlayer.setForeigner(isForeignerRequest);
+            foreignPlayer.setDomesticAndNotGoalkeeper(isDomesticAndNotGoalkeeperRequest);
+            foreignPlayer.setTeam(team);
+
             List<ForeignPlayer> foreignPlayerList = new ArrayList<>();
-            foreignPlayerList.add((ForeignPlayer) player);
+            foreignPlayerList.add(foreignPlayer);
 
             team.setForeignPlayers(foreignPlayerList);
 
             //playerRepository.save(player);
-             */
 
-            ForeignPlayer foreignPlayer = new ForeignPlayer();
 
-            foreignPlayer.setTeam(team);
+            //ForeignPlayer foreignPlayer = new ForeignPlayer();
 
-            foreignPlayer.getTeam().getForeignPlayers().add(foreignPlayer.getId(), foreignPlayer);
+            //foreignPlayer.setTeam(team);
+
+            //player.getTeam().getForeignPlayers().add(player.getId(), (ForeignPlayer) player);
 
         } else if (player.isForeigner() && player.getTeam().getForeignPlayers().size() == 6){
 
@@ -92,18 +108,24 @@ public class PlayerService {
 
         if (player.isDomesticAndNotGoalkeeper() && (player.getTeam().getPlayers().size()) + (player.getTeam().getForeignPlayers().size()) + (player.getTeam().getGoalkeepers().size()) < 18) {
 
-            /*
-            List<DomesticAndNotGoalkeeper> domesticAndNotGoalkeeperList = new ArrayList<>();
-            domesticAndNotGoalkeeperList.add((DomesticAndNotGoalkeeper) player);
-
-            team.setDomesticAndNotGoalkeepers(domesticAndNotGoalkeeperList);
-             */
-
             DomesticAndNotGoalkeeper domesticAndNotGoalkeeper = new DomesticAndNotGoalkeeper();
 
+            domesticAndNotGoalkeeper.setFullName(fullNameRequest);
+            domesticAndNotGoalkeeper.setGoalkeeper(isGoalkeeperRequest);
+            domesticAndNotGoalkeeper.setForeigner(isForeignerRequest);
+            domesticAndNotGoalkeeper.setDomesticAndNotGoalkeeper(isDomesticAndNotGoalkeeperRequest);
             domesticAndNotGoalkeeper.setTeam(team);
 
-            domesticAndNotGoalkeeper.getTeam().getDomesticAndNotGoalkeepers().add(domesticAndNotGoalkeeper.getId(), domesticAndNotGoalkeeper);
+            List<DomesticAndNotGoalkeeper> domesticAndNotGoalkeeperList = new ArrayList<>();
+            domesticAndNotGoalkeeperList.add(domesticAndNotGoalkeeper);
+
+            team.setDomesticAndNotGoalkeepers(domesticAndNotGoalkeeperList);
+
+            //DomesticAndNotGoalkeeper domesticAndNotGoalkeeper = new DomesticAndNotGoalkeeper();
+
+            //domesticAndNotGoalkeeper.setTeam(team);
+
+            //player.getTeam().getDomesticAndNotGoalkeepers().add(player.getId(), (DomesticAndNotGoalkeeper) player);
 
         } else if ((player.getTeam().getPlayers().size()) + (player.getTeam().getForeignPlayers().size()) + (player.getTeam().getGoalkeepers().size()) == 18){
 
