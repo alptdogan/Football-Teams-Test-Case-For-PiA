@@ -3,8 +3,11 @@ package com.alpdogan.FootballTeamsTestCaseForPiA.service;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SavePlayerRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.UpdatePlayerRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.response.PlayerResponseDto;
+import com.alpdogan.FootballTeamsTestCaseForPiA.entity.ForeignPlayer;
+import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Goalkeeper;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Player;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Team;
+import com.alpdogan.FootballTeamsTestCaseForPiA.repository.GoalKeeperRepository;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.PlayerRepository;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.TeamRepository;
 import org.hibernate.type.TrueFalseType;
@@ -26,6 +29,9 @@ public class PlayerService {
     TeamRepository teamRepository;
 
     @Autowired
+    GoalKeeperRepository goalKeeperRepository;
+
+    @Autowired
     ModelMapper modelMapper;
 
     public String savePlayer(SavePlayerRequestDto savePlayerRequestDto) {
@@ -44,28 +50,39 @@ public class PlayerService {
         player.setForeigner(isForeignerRequest);
         player.setTeam(team);
 
-        if (player.isGoalkeeper()) {
-            player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
-        }
+        if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() < 2) {
 
-        if (player.isForeigner()) {
-            player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
-        }
+            Goalkeeper goalkeeper = new Goalkeeper();
 
-        if (player.getTeam().getPlayers().size() == 18) {
+            goalkeeper.setTeam(team);
 
-            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
+            goalkeeper.getTeam().getGoalkeepers().add(goalkeeper.getId(), goalkeeper);
 
-        } else if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() == 2) {
+        } else if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() == 2){
 
             return team.getTeamName() + " Has Already 2 Goalkeepers, Cannot Add More.";
 
+        }
 
-        } else if (player.isForeigner() && player.getTeam().getForeignPlayers().size() == 6) {
+        if (player.isForeigner() && player.getTeam().getForeignPlayers().size() < 6) {
+
+            ForeignPlayer foreignPlayer = new ForeignPlayer();
+
+            foreignPlayer.setTeam(team);
+
+            foreignPlayer.getTeam().getForeignPlayers().add(foreignPlayer.getId(), foreignPlayer);
+
+        } else if (player.isForeigner() && player.getTeam().getForeignPlayers().size() == 6){
 
             return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
 
-        } else {
+        }
+
+        if ((player.getTeam().getPlayers().size()) + (player.getTeam().getForeignPlayers().size()) + (player.getTeam().getGoalkeepers().size()) == 18) {
+
+            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
+
+        }
 
             List<Player> playerList = new ArrayList<>();
             playerList.add(player);
@@ -75,8 +92,6 @@ public class PlayerService {
             playerRepository.save(player);
 
             return player.getFullName() + " Has Been Successfully Created.";
-
-        }
 
     }
 
