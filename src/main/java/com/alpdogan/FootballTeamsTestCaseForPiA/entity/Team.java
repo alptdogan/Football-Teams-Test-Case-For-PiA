@@ -18,12 +18,6 @@ public class Team {
     @Column(name = "team_name")
     private String teamName;
 
-    @Column(name = "foreigners")
-    private int[] foreigners;
-
-    @Column(name = "goalkeepers")
-    private int[] goalkeepers;
-
     /*
     @Column(name = "foreigners")
     private boolean[] foreigners = new boolean[6];
@@ -31,6 +25,22 @@ public class Team {
     @Column(name = "goalkeepers")
     private boolean[] goalkeepers = new boolean[2];
      */
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    private List<Goalkeeper> goalkeepers = new ArrayList<>(2);
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    private List<ForeignPlayer> foreignPlayers = new ArrayList<>(6);
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
