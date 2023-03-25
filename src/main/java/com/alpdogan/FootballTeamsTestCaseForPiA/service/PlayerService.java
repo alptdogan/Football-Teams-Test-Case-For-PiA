@@ -40,21 +40,28 @@ public class PlayerService {
         Player player = new Player();
 
         player.setFullName(fullNameRequest);
-        player.setTeam(team);
         player.setGoalkeeper(isGoalkeeperRequest);
         player.setForeigner(isForeignerRequest);
-        //player.getTeam().setForeigners(player.isForeigner());
+        player.setTeam(team);
 
-        if (team.getPlayers().size() == 18) {
+        if (player.isGoalkeeper()) {
+            player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
+        }
+
+        if (player.isForeigner()) {
+            player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
+        }
+
+        if (player.getTeam().getPlayers().size() == 18) {
 
             return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
 
-        } else if (player.isGoalkeeper() == true && team.getGoalkeepers().length == 2) {
+        } else if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() == 2) {
 
             return team.getTeamName() + " Has Already 2 Goalkeepers, Cannot Add More.";
 
 
-        } else if (player.isForeigner() == true && team.getForeigners().length == 6) {
+        } else if (player.isForeigner() && player.getTeam().getForeignPlayers().size() == 6) {
 
             return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
 
@@ -102,6 +109,8 @@ public class PlayerService {
 
         int idPlayerRequest = updatePlayerRequestDto.getId();
         String fullNameRequest = updatePlayerRequestDto.getFullName();
+        boolean isGoalkeeperRequest = updatePlayerRequestDto.isGoalkeeper();
+        boolean isForeignerRequest = updatePlayerRequestDto.isForeigner();
         int teamIdRequest = updatePlayerRequestDto.getTeamId();
 
         Team team = teamRepository.findById(teamIdRequest).get();
@@ -110,21 +119,29 @@ public class PlayerService {
         Player player = playerOptional.get();
 
         player.setFullName(fullNameRequest);
-        player.setForeigner(player.isForeigner());
-        player.setGoalkeeper(player.isGoalkeeper());
+        player.setGoalkeeper(isGoalkeeperRequest);
+        player.setForeigner(isForeignerRequest);
         player.setTeam(team);
+
+        if (player.isGoalkeeper()) {
+            player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
+        }
+
+        if (player.isForeigner()) {
+            player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
+        }
 
         if (team.getPlayers().size() == 18) {
 
             return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
 
-        } else if (player.isForeigner() == true && team.getForeigners().length == 6) {
-
-            return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
-
-        } else if (player.isGoalkeeper() == true && team.getGoalkeepers().length == 2) {
+        } else if (player.isGoalkeeper() == true && player.getTeam().getGoalkeepers().size() == 2) {
 
             return team.getTeamName() + " Has Already 2 Goalkeepers, Cannot Add More.";
+
+        } else if (player.isForeigner() == true && player.getTeam().getForeignPlayers().size() == 6) {
+
+            return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
 
         } else {
 
