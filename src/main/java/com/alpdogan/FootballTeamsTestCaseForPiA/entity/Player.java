@@ -22,6 +22,9 @@ public class Player {
     @Column(name = "is_goalkeeper")
     private boolean isGoalkeeper;
 
+    @Column(name = "is_domestic_and_no_gk")
+    private boolean isDomesticAndNotGoalkeeper;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,

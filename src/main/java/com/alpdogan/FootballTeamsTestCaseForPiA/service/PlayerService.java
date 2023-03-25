@@ -3,14 +3,9 @@ package com.alpdogan.FootballTeamsTestCaseForPiA.service;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SavePlayerRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.UpdatePlayerRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.response.PlayerResponseDto;
-import com.alpdogan.FootballTeamsTestCaseForPiA.entity.ForeignPlayer;
-import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Goalkeeper;
-import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Player;
-import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Team;
-import com.alpdogan.FootballTeamsTestCaseForPiA.repository.GoalKeeperRepository;
+import com.alpdogan.FootballTeamsTestCaseForPiA.entity.*;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.PlayerRepository;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.TeamRepository;
-import org.hibernate.type.TrueFalseType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +24,6 @@ public class PlayerService {
     TeamRepository teamRepository;
 
     @Autowired
-    GoalKeeperRepository goalKeeperRepository;
-
-    @Autowired
     ModelMapper modelMapper;
 
     public String savePlayer(SavePlayerRequestDto savePlayerRequestDto) {
@@ -39,6 +31,7 @@ public class PlayerService {
         String fullNameRequest = savePlayerRequestDto.getFullName();
         boolean isGoalkeeperRequest = savePlayerRequestDto.isGoalkeeper();
         boolean isForeignerRequest = savePlayerRequestDto.isForeigner();
+        boolean isDomesticAndNotGoalkeeperRequest = savePlayerRequestDto.isDomesticAndNotGoalkeeper();
         int teamIdRequest = savePlayerRequestDto.getTeamId();
 
         Team team = teamRepository.findById(teamIdRequest).get();
@@ -48,9 +41,19 @@ public class PlayerService {
         player.setFullName(fullNameRequest);
         player.setGoalkeeper(isGoalkeeperRequest);
         player.setForeigner(isForeignerRequest);
+        player.setDomesticAndNotGoalkeeper(isDomesticAndNotGoalkeeperRequest);
         player.setTeam(team);
 
         if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() < 2) {
+
+            /*
+            List<Goalkeeper> goalkeepersList = new ArrayList<>();
+            goalkeepersList.add((Goalkeeper) player);
+
+            team.setGoalkeepers(goalkeepersList);
+
+            //playerRepository.save(player);
+             */
 
             Goalkeeper goalkeeper = new Goalkeeper();
 
@@ -66,6 +69,15 @@ public class PlayerService {
 
         if (player.isForeigner() && player.getTeam().getForeignPlayers().size() < 6) {
 
+            /*
+            List<ForeignPlayer> foreignPlayerList = new ArrayList<>();
+            foreignPlayerList.add((ForeignPlayer) player);
+
+            team.setForeignPlayers(foreignPlayerList);
+
+            //playerRepository.save(player);
+             */
+
             ForeignPlayer foreignPlayer = new ForeignPlayer();
 
             foreignPlayer.setTeam(team);
@@ -78,20 +90,30 @@ public class PlayerService {
 
         }
 
-        if ((player.getTeam().getPlayers().size()) + (player.getTeam().getForeignPlayers().size()) + (player.getTeam().getGoalkeepers().size()) == 18) {
+        if (player.isDomesticAndNotGoalkeeper() && (player.getTeam().getPlayers().size()) + (player.getTeam().getForeignPlayers().size()) + (player.getTeam().getGoalkeepers().size()) < 18) {
+
+            /*
+            List<DomesticAndNotGoalkeeper> domesticAndNotGoalkeeperList = new ArrayList<>();
+            domesticAndNotGoalkeeperList.add((DomesticAndNotGoalkeeper) player);
+
+            team.setDomesticAndNotGoalkeepers(domesticAndNotGoalkeeperList);
+             */
+
+            DomesticAndNotGoalkeeper domesticAndNotGoalkeeper = new DomesticAndNotGoalkeeper();
+
+            domesticAndNotGoalkeeper.setTeam(team);
+
+            domesticAndNotGoalkeeper.getTeam().getDomesticAndNotGoalkeepers().add(domesticAndNotGoalkeeper.getId(), domesticAndNotGoalkeeper);
+
+        } else if ((player.getTeam().getPlayers().size()) + (player.getTeam().getForeignPlayers().size()) + (player.getTeam().getGoalkeepers().size()) == 18){
 
             return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
 
         }
 
-            List<Player> playerList = new ArrayList<>();
-            playerList.add(player);
+        playerRepository.save(player);
 
-            team.setPlayers(playerList);
-
-            playerRepository.save(player);
-
-            return player.getFullName() + " Has Been Successfully Created.";
+        return player.getFullName() + " Has Been Successfully Created.";
 
     }
 
@@ -167,8 +189,8 @@ public class PlayerService {
 
     }
 
-    public String deletePlayerById(Integer playerId)
-    {
+    public String deletePlayerById(Integer playerId) {
+
         Optional<Player> optionalPlayer = playerRepository.findById(playerId);
         Player player = optionalPlayer.get();
 
