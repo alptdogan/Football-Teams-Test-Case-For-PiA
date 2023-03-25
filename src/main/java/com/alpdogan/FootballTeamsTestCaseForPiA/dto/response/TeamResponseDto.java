@@ -9,6 +9,6 @@ public class TeamResponseDto {
 
     private String teamName;
 
-    private int playerIds;
+    //private int playerIds;
 
 }

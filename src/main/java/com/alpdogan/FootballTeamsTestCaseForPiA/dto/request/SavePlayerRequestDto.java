@@ -7,9 +7,9 @@ public class SavePlayerRequestDto {
 
     private String fullName;
 
-    //private boolean isForeigner;
+    private boolean isForeigner;
 
-    //private boolean isGoalkeeper;
+    private boolean isGoalkeeper;
 
     private int teamId;
 

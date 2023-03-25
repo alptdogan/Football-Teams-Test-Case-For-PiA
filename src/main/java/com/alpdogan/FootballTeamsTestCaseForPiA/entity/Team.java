@@ -18,21 +18,19 @@ public class Team {
     @Column(name = "team_name")
     private String teamName;
 
+    @Column(name = "foreigners")
+    private int[] foreigners;
+
+    @Column(name = "goalkeepers")
+    private int[] goalkeepers;
+
     /*
     @Column(name = "foreigners")
-    private int foreigners;
+    private boolean[] foreigners = new boolean[6];
 
     @Column(name = "goalkeepers")
-    private int goalkeepers;
+    private boolean[] goalkeepers = new boolean[2];
      */
-
-    @Column(name = "foreigners")
-    private int[] foreigners = new int[6];
-
-    @Column(name = "goalkeepers")
-    private int[] goalkeepers = new int[2];
-
-
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
