@@ -1,6 +1,7 @@
 package com.alpdogan.FootballTeamsTestCaseForPiA.controller;
 
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SaveTeamRequestDto;
+import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.UpdateTeamRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.response.TeamResponseDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.Team;
 import com.alpdogan.FootballTeamsTestCaseForPiA.service.TeamService;
@@ -42,6 +43,24 @@ public class TeamController {
         String teamSaveDescription = teamService.saveTeam(saveTeamRequestDto);
 
         return new ResponseEntity<>(teamSaveDescription, HttpStatus.OK);
+
+    }
+
+    @PostMapping("/updateTeam")
+    public ResponseEntity<String> updateTeamById (@RequestBody UpdateTeamRequestDto updateTeamRequestDto) {
+
+        String updateTeamDescription = teamService.updateTeam(updateTeamRequestDto);
+
+        return new ResponseEntity<>(updateTeamDescription, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/deleteTeam")
+    public ResponseEntity<String> deleteTeamById(@RequestParam Integer teamId) {
+
+        String deleteTeamDescription = teamService.deleteTeamById(teamId);
+
+        return new ResponseEntity<>(deleteTeamDescription, HttpStatus.OK);
 
     }
 
