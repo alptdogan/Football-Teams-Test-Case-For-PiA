@@ -1,5 +1,6 @@
 package com.alpdogan.FootballTeamsTestCaseForPiA.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Player {
     @Column(name = "is_goalkeeper")
     private boolean isGoalkeeper;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
