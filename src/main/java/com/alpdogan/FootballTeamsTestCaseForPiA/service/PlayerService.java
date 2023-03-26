@@ -44,11 +44,9 @@ public class PlayerService {
         if (player.isGoalkeeper() && player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() < 2) {
 
             Goalkeeper goalkeeper = new Goalkeeper();
-            // burada yeni kaleci olarak oluşturduğum için kendi tablosuna yeni bir id ile kaydoluyor. isim vs tutmak istersen bu method'ta eklenebilir.
 
             goalkeeper.setTeam(team);
 
-            //player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
             player.getTeam().getGoalkeepers().add(goalkeeper.getId(), goalkeeper);
 
         } else if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() == 2) {
@@ -63,7 +61,6 @@ public class PlayerService {
 
             foreignPlayer.setTeam(team);
 
-            //player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
             player.getTeam().getForeignPlayers().add(foreignPlayer.getId(), foreignPlayer);
 
         } else if (player.isForeigner() && player.getTeam().getForeignPlayers().size() == 6) {
@@ -73,13 +70,6 @@ public class PlayerService {
         }
 
         if (player.getTeam().getPlayers().size() < 18) {
-
-            /*
-            List<Player> playerList = new ArrayList<>();
-            playerList.add(player);
-
-            team.setPlayers(playerList);
-             */
 
             player.getTeam().getPlayers().add(player.getId(), player);
 
@@ -123,7 +113,6 @@ public class PlayerService {
         return "Player Deleted.";
 
     }
-
 
 }
 
