@@ -1,7 +1,6 @@
 package com.alpdogan.FootballTeamsTestCaseForPiA.service;
 
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.SavePlayerRequestDto;
-import com.alpdogan.FootballTeamsTestCaseForPiA.dto.request.UpdatePlayerRequestDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.dto.response.PlayerResponseDto;
 import com.alpdogan.FootballTeamsTestCaseForPiA.entity.*;
 import com.alpdogan.FootballTeamsTestCaseForPiA.repository.PlayerRepository;
@@ -96,13 +95,6 @@ public class PlayerService {
 
     }
 
-    //Bu lazım mı en son karar ver
-    public Player findPlayerById(Integer playerId) {
-
-        return playerRepository.findById(playerId).get();
-
-    }
-
     public List<PlayerResponseDto> findAllPlayers() {
 
         Iterable<Player> players = playerRepository.findAll();
@@ -118,53 +110,6 @@ public class PlayerService {
         }
 
         return playerResponseDtos;
-
-    }
-
-    public String updatePlayer(UpdatePlayerRequestDto updatePlayerRequestDto) {
-
-        int idPlayerRequest = updatePlayerRequestDto.getId();
-        String fullNameRequest = updatePlayerRequestDto.getFullName();
-        boolean isGoalkeeperRequest = updatePlayerRequestDto.isGoalkeeper();
-        boolean isForeignerRequest = updatePlayerRequestDto.isForeigner();
-        int teamIdRequest = updatePlayerRequestDto.getTeamId();
-
-        Team team = teamRepository.findById(teamIdRequest).get();
-
-        Optional<Player> playerOptional = playerRepository.findById(idPlayerRequest);
-        Player player = playerOptional.get();
-
-        player.setFullName(fullNameRequest);
-        player.setGoalkeeper(isGoalkeeperRequest);
-        player.setForeigner(isForeignerRequest);
-        player.setTeam(team);
-
-        if (player.isGoalkeeper()) {
-            player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
-        }
-
-        if (player.isForeigner()) {
-            player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
-        }
-
-        if (team.getPlayers().size() == 18) {
-
-            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
-
-        } else if (player.isGoalkeeper() == true && player.getTeam().getGoalkeepers().size() == 2) {
-
-            return team.getTeamName() + " Has Already 2 Goalkeepers, Cannot Add More.";
-
-        } else if (player.isForeigner() == true && player.getTeam().getForeignPlayers().size() == 6) {
-
-            return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
-
-        } else {
-
-            playerRepository.save(player);
-            return "Changes Saved Successfully.";
-
-        }
 
     }
 
