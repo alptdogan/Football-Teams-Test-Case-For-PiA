@@ -1,9 +1,6 @@
 # FootballTeamsTestCaseForPiA
 
 
-A management system for storing football teams and football players.
-
-
 What's this about:
 
 A Spring Boot project that you can store football players who belong to football teams.
