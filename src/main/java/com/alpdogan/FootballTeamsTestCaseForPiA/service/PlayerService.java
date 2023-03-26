@@ -73,20 +73,24 @@ public class PlayerService {
 
         }
 
-        if (player.getTeam().getPlayers().size() == 18) {
+        if (player.getTeam().getPlayers().size() < 18) {
 
-            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
-
-        } else {
-
+            /*
             List<Player> playerList = new ArrayList<>();
             playerList.add(player);
 
             team.setPlayers(playerList);
+             */
+
+            player.getTeam().getPlayers().add(player.getId(), player);
 
             playerRepository.save(player);
 
             return player.getFullName() + " Has Been Successfully Created.";
+
+        } else {
+
+            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
 
         }
 
