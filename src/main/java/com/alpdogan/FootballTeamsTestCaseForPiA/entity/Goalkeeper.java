@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Goalkeeper extends Player {
+public class Goalkeeper {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

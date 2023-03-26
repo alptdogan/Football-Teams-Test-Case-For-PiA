@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class ForeignPlayer extends Player {
+public class ForeignPlayer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

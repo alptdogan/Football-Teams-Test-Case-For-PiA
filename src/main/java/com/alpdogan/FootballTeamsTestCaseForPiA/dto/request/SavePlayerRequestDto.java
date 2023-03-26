@@ -11,7 +11,7 @@ public class SavePlayerRequestDto {
 
     private boolean isGoalkeeper;
 
-    private boolean isDomesticAndNotGoalkeeper;
+    //private boolean isDomesticAndNotGoalkeeper;
 
     private int teamId;
 

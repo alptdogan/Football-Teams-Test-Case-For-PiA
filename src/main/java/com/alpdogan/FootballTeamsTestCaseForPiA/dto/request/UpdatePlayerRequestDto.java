@@ -13,7 +13,7 @@ public class UpdatePlayerRequestDto {
 
     private boolean isGoalkeeper;
 
-    private boolean isDomesticAndNotGoalkeeper;
+    //private boolean isDomesticAndNotGoalkeeper;
 
     private int teamId;
 
