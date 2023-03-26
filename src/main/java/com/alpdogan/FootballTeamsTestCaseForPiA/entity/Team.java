@@ -24,7 +24,7 @@ public class Team {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    private List<Goalkeeper> goalkeepers = new ArrayList<>(2);
+    private List<Goalkeeper> goalkeepers = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
@@ -32,7 +32,7 @@ public class Team {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    private List<ForeignPlayer> foreignPlayers = new ArrayList<>(6);
+    private List<ForeignPlayer> foreignPlayers = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
@@ -40,6 +40,6 @@ public class Team {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    private List<Player> players = new ArrayList<>(18);
+    private List<Player> players = new ArrayList<>();
 
 }
