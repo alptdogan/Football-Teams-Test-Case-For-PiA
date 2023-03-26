@@ -20,7 +20,7 @@ public class TeamController {
     TeamService teamService;
 
     @GetMapping("/findTeamById")
-    public ResponseEntity<Team> findTeamById (@RequestParam Integer teamId) {
+    public ResponseEntity<Team> findTeamById (@RequestParam int teamId) {
 
         Team team = teamService.findTeamById(teamId);
 

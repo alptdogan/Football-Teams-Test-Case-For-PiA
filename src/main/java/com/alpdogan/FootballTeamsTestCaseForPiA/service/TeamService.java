@@ -32,9 +32,9 @@ public class TeamService {
 
     }
 
-    public Team findTeamById(Integer teamId) {
+    public Team findTeamById(int teamId) {
 
-        return teamRepository.findById(teamId).get();
+        return teamRepository.findTeamById(teamId);
 
     }
 
