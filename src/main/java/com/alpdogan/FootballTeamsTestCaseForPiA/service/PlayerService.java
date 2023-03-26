@@ -42,26 +42,36 @@ public class PlayerService {
         player.setForeigner(isForeignerRequest);
         player.setTeam(team);
 
-        if (player.isGoalkeeper()) {
-            player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
-        }
+        if (player.isGoalkeeper() && player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() < 2) {
 
-        if (player.isForeigner()) {
-            player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
-        }
+            Goalkeeper goalkeeper = new Goalkeeper();
+            // burada yeni kaleci olarak oluşturduğum için kendi tablosuna yeni bir id ile kaydoluyor. isim vs tutmak istersen bu method'ta eklenebilir.
 
-        if (player.getTeam().getPlayers().size() == 18) {
-
-            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
+            //player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
+            player.getTeam().getGoalkeepers().add(goalkeeper.getId(), goalkeeper);
 
         } else if (player.isGoalkeeper() && player.getTeam().getGoalkeepers().size() == 2) {
 
             return team.getTeamName() + " Has Already 2 Goalkeepers, Cannot Add More.";
 
+        }
+
+        if (player.isForeigner() && player.isForeigner() && player.getTeam().getForeignPlayers().size() < 6) {
+
+            ForeignPlayer foreignPlayer = new ForeignPlayer();
+
+            //player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
+            player.getTeam().getForeignPlayers().add(foreignPlayer.getId(), foreignPlayer);
 
         } else if (player.isForeigner() && player.getTeam().getForeignPlayers().size() == 6) {
 
             return team.getTeamName() + " Has Already 6 Foreign Players, Cannot Add More.";
+
+        }
+
+        if (player.getTeam().getPlayers().size() == 18) {
+
+            return team.getTeamName() + " Has Already 18 Players, Cannot Add More.";
 
         } else {
 
