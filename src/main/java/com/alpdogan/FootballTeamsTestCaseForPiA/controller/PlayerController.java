@@ -19,15 +19,6 @@ public class PlayerController {
     @Autowired
     PlayerService playerService;
 
-    @GetMapping("/findPlayerById")
-    public ResponseEntity<Player> findPlayerById(@RequestParam Integer playerId) {
-
-        Player player = playerService.findPlayerById(playerId);
-
-        return new ResponseEntity<>(player, HttpStatus.OK);
-
-    }
-
     @GetMapping("/findAllPlayers")
     public ResponseEntity<List<PlayerResponseDto>> findAllPlayers() {
 
@@ -43,15 +34,6 @@ public class PlayerController {
         String playerSaveDescription = playerService.savePlayer(savePlayerRequestDto);
 
         return new ResponseEntity<>(playerSaveDescription, HttpStatus.OK);
-
-    }
-
-    @PostMapping("/updatePlayer")
-    public ResponseEntity<String> updatePlayerById(@RequestBody UpdatePlayerRequestDto updatePlayerRequestDto) {
-
-        String updatePlayerDescription = playerService.updatePlayer(updatePlayerRequestDto);
-
-        return new ResponseEntity<>(updatePlayerDescription, HttpStatus.OK);
 
     }
 
