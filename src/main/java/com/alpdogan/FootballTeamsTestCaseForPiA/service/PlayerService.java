@@ -47,6 +47,8 @@ public class PlayerService {
             Goalkeeper goalkeeper = new Goalkeeper();
             // burada yeni kaleci olarak oluşturduğum için kendi tablosuna yeni bir id ile kaydoluyor. isim vs tutmak istersen bu method'ta eklenebilir.
 
+            goalkeeper.setTeam(team);
+
             //player.getTeam().setGoalkeepers(player.getTeam().getGoalkeepers());
             player.getTeam().getGoalkeepers().add(goalkeeper.getId(), goalkeeper);
 
@@ -59,6 +61,8 @@ public class PlayerService {
         if (player.isForeigner() && player.isForeigner() && player.getTeam().getForeignPlayers().size() < 6) {
 
             ForeignPlayer foreignPlayer = new ForeignPlayer();
+
+            foreignPlayer.setTeam(team);
 
             //player.getTeam().setForeignPlayers(player.getTeam().getForeignPlayers());
             player.getTeam().getForeignPlayers().add(foreignPlayer.getId(), foreignPlayer);

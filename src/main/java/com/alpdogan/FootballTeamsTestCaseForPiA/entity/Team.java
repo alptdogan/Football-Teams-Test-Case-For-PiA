@@ -34,17 +34,6 @@ public class Team {
     })
     private List<ForeignPlayer> foreignPlayers = new ArrayList<>(6);
 
-
-    /*
-    @OneToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.DETACH,
-            CascadeType.REFRESH
-    })
-    private List<DomesticAndNotGoalkeeper> domesticAndNotGoalkeepers = new ArrayList<>();
-     */
-
     @OneToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
